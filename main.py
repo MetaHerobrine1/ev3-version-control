@@ -1,25 +1,32 @@
 import sys, os, time, json
-settingsJson = json.load(open("settings.json"))
-store_dir = settingsJson["store_directory"]
-working_dir = settingsJson["working_directory"]
+
+settings = json.load(open("settings.json"))
 
 #Event Handlers
-def changeDirectory(command):
+def changeWorkingDirectory(command):
 	#Command Format
 	#cwd {directory}
 	parsed_command = parseCommand(command)
+	settings["working_directory"] = command[1]
 
-def putInDropboxFolder(command):
+def putFileInDropboxFolder(command):
 	return
 
 #Functions
 def parseCommand(command):
 	return command.split(" ")
 
+def exitProgram():
+	json.dump(settings, open("settings.json", "w"))
+	sys.exit()
+
 #Uses the key to find the event handler
-commands_dict = {}
+commands_dict = {"cwd": changeDirectory}
 
 while True:
 	command = input("ev3-version-control>>> ")
 	if command == "stop" or command == "quit" or command == "exit":
-		sys.exit()
+		exitProgram()
+	for entry in commands_dict:
+		if entry == command:
+			commands_dict[entry](command)
