@@ -10,7 +10,7 @@ def changeWorkingDirectory(command):
 	if len(parsed_command >= 2):
 		settings["working_directory"] = command[1]
 	else:
-    	print("There are not enough arguments.")
+		print("There are not enough arguments.")
 
 def putFileInDropboxFolder(command):
 	return
@@ -19,27 +19,29 @@ def pullFileFromDropboxFolder(command):
 	return
 
 def commitChanges(command):
-    return
+	return
 
 def addChanges(command):
-    return
+	return
 
 def removeChanges(command):
-    return
+	return
 
 def revertToPreviousCommit(command):
-    return
+	return
 
 #Functions
 def parseCommand(command):
 	return command.split(" ")
 
 def exitProgram():
-	json.dump(settings, open("settings.json", "w"))
+	json.dump(settings, open("settings.json", "w"), indent=4)
 	sys.exit()
 
 #Uses the key to find the event handler
-commands_dict = {"cwd": changeDirectory}
+commands_dict = {"cwd": changeWorkingDirectory, "commit": commitChanges, 
+				 "add": addChanges, "remove": removeChanges, "revert": revertToPreviousCommit, 
+				 "pull": pullFileFromDropboxFolder, "push": putFileInDropboxFolder}
 
 #Main command loop
 while True:
